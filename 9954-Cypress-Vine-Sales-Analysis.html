@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sales Analysis | 9954 Cypress Vine Dr</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#16324f; --navy2:#22476d; --gold:#b8935a; --gold-soft:#f4ece0;
+  --ink:#1f2933; --muted:#5f6b7a; --line:#e3e7ec; --bg:#f7f8fa; --card:#ffffff;
+  --green:#2f7d5b; --green-soft:#e6f3ec; --amber:#b7791f; --amber-soft:#fdf3e1; --red:#b23a3a; --red-soft:#fbe9e9;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding:24px 16px 48px}
+header.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:14px;padding:32px 32px 28px;position:relative;overflow:hidden}
+header.hero:after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(184,147,90,.18)}
+.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#e9d7b8;font-weight:600}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:34px;margin:6px 0 4px;font-weight:700}
+.sub{color:#d6e0ea;font-size:15px}
+.meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:4px 12px;font-size:12px}
+h2{font-family:"Playfair Display",Georgia,serif;color:var(--navy);font-size:22px;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--gold-soft)}
+h3{color:var(--navy);font-size:15px;margin:0 0 8px}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:820px){.g4,.g3,.g2{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.g4,.g3,.g2{grid-template-columns:1fr} h1{font-size:26px} header.hero{padding:24px 20px}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.kpi .label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.kpi .value{font-size:24px;font-weight:700;color:var(--navy);margin-top:4px}
+.kpi .note{font-size:12px;color:var(--muted);margin-top:2px}
+.kpi.feature{background:var(--navy);color:#fff;border-color:var(--navy)}
+.kpi.feature .label,.kpi.feature .note{color:#e9d7b8}
+.kpi.feature .value{color:#fff}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:13px}
+th{background:var(--navy);color:#fff;text-align:left;font-weight:600;padding:10px;white-space:nowrap}
+td{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top}
+tr.subject td{background:var(--gold-soft);font-weight:600}
+td.num,th.num{text-align:right;white-space:nowrap}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px}
+.t-sold{background:var(--green-soft);color:var(--green)} .t-pend{background:var(--amber-soft);color:var(--amber)} .t-act{background:#e8eef6;color:var(--navy2)} .t-exp{background:var(--red-soft);color:var(--red)}
+.pos{color:var(--green);font-weight:600} .neg{color:var(--red);font-weight:600}
+.bars .row{display:grid;grid-template-columns:190px 1fr 70px;gap:10px;align-items:center;margin:7px 0;font-size:12.5px}
+@media(max-width:520px){.bars .row{grid-template-columns:110px 1fr 56px;font-size:11.5px}}
+.track{background:#eef1f5;border-radius:6px;height:16px;overflow:hidden}
+.fill{height:100%;border-radius:6px}
+.f-sold{background:var(--green)} .f-pend{background:var(--amber)} .f-act{background:#7d97b6} .f-sub{background:var(--gold)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+.legend span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.tier{border-radius:12px;padding:16px;border:1px solid var(--line);background:#fff}
+.tier.rec{border:2px solid var(--gold);box-shadow:0 4px 14px rgba(184,147,90,.18)}
+.tier .price{font-size:22px;font-weight:700;color:var(--navy)}
+.tier .dom{font-weight:600;margin:4px 0 8px}
+.tier ul{margin:0;padding-left:18px;color:var(--muted);font-size:13px}
+.ribbon{display:inline-block;background:var(--gold);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-bottom:6px}
+ul.clean{margin:0;padding-left:18px} ul.clean li{margin:4px 0}
+.callout{background:var(--amber-soft);border-left:4px solid var(--amber);border-radius:8px;padding:14px 16px;margin-top:14px}
+.callout.blue{background:#eaf1f8;border-left-color:var(--navy2)}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:6px}
+@media(max-width:620px){.timeline{grid-template-columns:1fr 1fr;row-gap:12px}}
+.step{text-align:center;position:relative;padding:0 6px}
+.step .dot{width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-weight:700;font-size:13px}
+.step .t{font-weight:600;color:var(--navy);font-size:13px}
+.step .d{font-size:12px;color:var(--muted)}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:11.5px}
+.sig{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:10px;color:var(--ink);font-size:13px}
+@media print{
+  body{background:#fff;font-size:12px}
+  .wrap{padding:0}
+  .card,.tier,.tablewrap{break-inside:avoid}
+  h2{break-after:avoid}
+  header.hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  th,.fill,.kpi.feature,.tag,tr.subject td,.ribbon,.step .dot{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Sales Analysis &amp; Pricing Strategy</div>
+  <h1>9954 Cypress Vine Drive</h1>
+  <div class="sub">Orlando, FL 32827 &nbsp;|&nbsp; Northlake Park at Lake Nona, Neighborhood 4A</div>
+  <div class="meta">
+    <span class="chip">4 Bedrooms + Office</span>
+    <span class="chip">3 Full Baths</span>
+    <span class="chip">2,591 Sq Ft</span>
+    <span class="chip">Built 2004</span>
+    <span class="chip">2-Car Garage</span>
+    <span class="chip">Conservation View</span>
+    <span class="chip">Flood Zone X</span>
+    <span class="chip">Prepared October 28, 2026</span>
+  </div>
+</header>
+
+<h2>At a Glance</h2>
+<div class="grid g4">
+  <div class="card kpi feature"><div class="label">Recommended List Price</div><div class="value">$619,900</div><div class="note">$239 per sq ft</div></div>
+  <div class="card kpi"><div class="label">Estimated Market Value</div><div class="value">$600K to $630K</div><div class="note">Most probable sale near $610,000</div></div>
+  <div class="card kpi"><div class="label">Expected Days on Market</div><div class="value">21 to 45</div><div class="note">To an accepted contract, if priced correctly</div></div>
+  <div class="card kpi"><div class="label">List to Closing</div><div class="value">55 to 90 days</div><div class="note">Includes a typical 30 to 45 day escrow</div></div>
+</div>
+
+<h2>Subject Property</h2>
+<div class="grid g2">
+  <div class="card">
+    <h3>Home Highlights</h3>
+    <ul class="clean">
+      <li>Primary suite on the main floor with dual sinks, soaking tub, walk-in shower and walk-in closet</li>
+      <li>Two additional bedrooms down plus a private office with French doors</li>
+      <li>Upstairs fourth bedroom with full bath, works as a guest suite, loft or bonus room</li>
+      <li>Luxury vinyl plank throughout the living areas; carpet in bedrooms and den</li>
+      <li>Roof replaced 2022 and HVAC replaced 2022</li>
+      <li>Rotunda entry, high ceilings, crown molding, formal dining</li>
+      <li>Backs to a reserve area with a mature oak; private, shaded backyard with covered patio</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Community &amp; Location</h3>
+    <ul class="clean">
+      <li>Family YMCA membership included in HOA dues</li>
+      <li>Zoned for Northlake Park Community School, Lake Nona Middle and Lake Nona High</li>
+      <li>Minutes to Lake Nona Medical City, the VA Medical Center, Town Center and Orlando International Airport</li>
+      <li>Quick access to SR 528, SR 417 and the Florida Turnpike</li>
+      <li>No CDD fee; HOA billed quarterly</li>
+      <li>Block and stucco construction on a 0.15 acre lot</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Comparable Sales &amp; Listings</h2>
+<div class="tablewrap">
+<table>
+  <thead><tr>
+    <th>Status</th><th>Address</th><th class="num">Bd/Ba</th><th class="num">Sq Ft</th><th class="num">Built</th><th>Pool</th><th class="num">List Price</th><th class="num">Sale Price</th><th class="num">$/Sq Ft</th><th class="num">CDOM</th><th>Notes</th>
+  </tr></thead>
+  <tbody>
+    <tr class="subject"><td><span class="tag t-act">Subject</span></td><td>9954 Cypress Vine Dr</td><td class="num">4/3</td><td class="num">2,591</td><td class="num">2004</td><td>No</td><td class="num">$619,900*</td><td class="num">&nbsp;</td><td class="num">$239</td><td class="num">&nbsp;</td><td>Roof &amp; HVAC 2022, LVP, office, conservation</td></tr>
+    <tr><td><span class="tag t-sold">Sold</span></td><td>9885 Leland Dr</td><td class="num">4/3</td><td class="num">2,123</td><td class="num">2005</td><td>No</td><td class="num">$550,000</td><td class="num">$530,000</td><td class="num">$250</td><td class="num">14</td><td>Sold 6/29/26, cash, wooded rear view, same section</td></tr>
+    <tr><td><span class="tag t-sold">Sold</span></td><td>9558 Cypress Pine St</td><td class="num">4/3</td><td class="num">2,926</td><td class="num">2003</td><td>No</td><td class="num">$700,000</td><td class="num">$680,000</td><td class="num">$232</td><td class="num">9</td><td>Sold 7/23/26, cash, upstairs bonus bedroom + bath</td></tr>
+    <tr><td><span class="tag t-sold">Sold</span></td><td>9613 Pine Lily St</td><td class="num">5/4.5</td><td class="num">3,677</td><td class="num">2005</td><td>Yes</td><td class="num">$980,000</td><td class="num">$962,000</td><td class="num">$262</td><td class="num">22</td><td>Sold 6/1/26, pool, 0.36 ac corner lot, in-law suite</td></tr>
+    <tr><td><span class="tag t-sold">Sold</span></td><td><b>9669 Leland Dr</b></td><td class="num">4/3</td><td class="num">2,304</td><td class="num">2006</td><td>Yes</td><td class="num">$699,000</td><td class="num">$660,000</td><td class="num">$286</td><td class="num">85</td><td><b>Best match:</b> sold 9/25/26, office + upstairs 4th BR, same section; 2026 roof, remodeled kitchen, pool/spa; cut from $729.9K</td></tr>
+    <tr><td><span class="tag t-sold">Sold</span></td><td>9589 Pine Lily St (4/2026)</td><td class="num">4/3</td><td class="num">2,879</td><td class="num">2004</td><td>Yes</td><td class="num">$775,000</td><td class="num">$735,000</td><td class="num">$255</td><td class="num">123</td><td>Sold 4/3/26 before renovation, pond view, 0.27 ac; cut from $750K start, now relisted (below)</td></tr>
+    <tr><td><span class="tag t-sold">Sold</span></td><td>10117 Sweetleaf St</td><td class="num">4/3</td><td class="num">3,077</td><td class="num">2004</td><td>Yes</td><td class="num">$572,000</td><td class="num">$650,000</td><td class="num">$211</td><td class="num">122</td><td>Sold 3/5/26, priced low with an offer deadline, 17 days to contract at 114% of list; heated pool/spa, 3-car garage</td></tr>
+    <tr><td><span class="tag t-pend">Pending</span></td><td>9615 Sweetleaf St</td><td class="num">3/2</td><td class="num">2,052</td><td class="num">2001</td><td>No</td><td class="num">$550,000</td><td class="num">&nbsp;</td><td class="num">$268</td><td class="num">45</td><td>Cut from $575K, $10K seller concession offered</td></tr>
+    <tr><td><span class="tag t-act">Active</span></td><td>9957 Cypress Vine Dr</td><td class="num">3/2</td><td class="num">1,642</td><td class="num">2004</td><td>No</td><td class="num">$459,000</td><td class="num">&nbsp;</td><td class="num">$280</td><td class="num">62</td><td>Cut from $475K, needs updates</td></tr>
+    <tr><td><span class="tag t-act">Active</span></td><td>10205 Cypress Vine Dr</td><td class="num">3/2</td><td class="num">1,841</td><td class="num">2005</td><td>No</td><td class="num">$499,500</td><td class="num">&nbsp;</td><td class="num">$271</td><td class="num">56</td><td>Tenant occupied through 5/2027</td></tr>
+    <tr><td><span class="tag t-act">Active</span></td><td>10180 Cypress Vine Dr</td><td class="num">4/2.5</td><td class="num">2,117</td><td class="num">2005</td><td>Yes</td><td class="num">$698,000</td><td class="num">&nbsp;</td><td class="num">$330</td><td class="num">201</td><td>Full renovation + heated pool, cut from $719.9K</td></tr>
+    <tr><td><span class="tag t-act">Active</span></td><td>9685 Sweetleaf St</td><td class="num">5/3</td><td class="num">2,900</td><td class="num">2003</td><td>No</td><td class="num">$700,000</td><td class="num">&nbsp;</td><td class="num">$241</td><td class="num">6</td><td>New listing, two-story, classic section</td></tr>
+    <tr><td><span class="tag t-act">Active</span></td><td>9589 Pine Lily St</td><td class="num">5/3</td><td class="num">2,879</td><td class="num">2004</td><td>Yes</td><td class="num">$1,059,000</td><td class="num">&nbsp;</td><td class="num">$368</td><td class="num">108</td><td>Bought 4/2026 for $735K, renovated, cut from $1.175M</td></tr>
+    <tr><td><span class="tag t-exp">Expired</span></td><td>9954 Cypress Vine Dr (2023)</td><td class="num">4/3</td><td class="num">2,546</td><td class="num">2004</td><td>No</td><td class="num">$574,000</td><td class="num">&nbsp;</td><td class="num">$225</td><td class="num">187</td><td>Subject's prior listing, cut from $605K, expired 1/2024</td></tr>
+  </tbody>
+</table>
+</div>
+<p style="font-size:12px;color:var(--muted);margin-top:8px">*Recommended list price. Public records show 2,546 heated sq ft; this analysis uses 2,591 sq ft. Final square footage should be confirmed before listing.</p>
+
+<h2>Price per Square Foot</h2>
+<div class="card bars">
+  <div class="row"><div><b>Subject at $619,900</b></div><div class="track"><div class="fill f-sub" style="width:62.9%"></div></div><div class="num"><b>$239</b></div></div>
+  <div class="row"><div>9558 Cypress Pine (Sold)</div><div class="track"><div class="fill f-sold" style="width:61.1%"></div></div><div class="num">$232</div></div>
+  <div class="row"><div>9885 Leland (Sold)</div><div class="track"><div class="fill f-sold" style="width:65.8%"></div></div><div class="num">$250</div></div>
+  <div class="row"><div>10117 Sweetleaf (Sold)</div><div class="track"><div class="fill f-sold" style="width:55.5%"></div></div><div class="num">$211</div></div>
+  <div class="row"><div>9589 Pine Lily (Sold 4/26)</div><div class="track"><div class="fill f-sold" style="width:67.1%"></div></div><div class="num">$255</div></div>
+  <div class="row"><div>9613 Pine Lily (Sold)</div><div class="track"><div class="fill f-sold" style="width:68.9%"></div></div><div class="num">$262</div></div>
+  <div class="row"><div><b>9669 Leland (Sold)</b></div><div class="track"><div class="fill f-sold" style="width:75.3%"></div></div><div class="num">$286</div></div>
+  <div class="row"><div>9615 Sweetleaf (Pending)</div><div class="track"><div class="fill f-pend" style="width:70.5%"></div></div><div class="num">$268</div></div>
+  <div class="row"><div>9685 Sweetleaf (Active)</div><div class="track"><div class="fill f-act" style="width:63.4%"></div></div><div class="num">$241</div></div>
+  <div class="row"><div>10205 Cypress Vine (Active)</div><div class="track"><div class="fill f-act" style="width:71.3%"></div></div><div class="num">$271</div></div>
+  <div class="row"><div>9957 Cypress Vine (Active)</div><div class="track"><div class="fill f-act" style="width:73.7%"></div></div><div class="num">$280</div></div>
+  <div class="row"><div>10180 Cypress Vine (Active)</div><div class="track"><div class="fill f-act" style="width:86.8%"></div></div><div class="num">$330</div></div>
+  <div class="row"><div>9589 Pine Lily (Active)</div><div class="track"><div class="fill f-act" style="width:96.8%"></div></div><div class="num">$368</div></div>
+  <div class="legend"><span style="--c:var(--gold)">Subject</span><span style="--c:var(--green)">Sold</span><span style="--c:var(--amber)">Pending</span><span style="--c:#7d97b6">Active</span></div>
+  <p style="font-size:12.5px;color:var(--muted);margin:12px 0 0">Larger homes naturally trade at a lower price per square foot. The two closest non-pool sales (4/3) closed at $232 and $250 per sq ft. Sitting between them in size, the subject points to roughly $238 to $240 per sq ft, or about $617,000 to $622,000. Pool homes in the 4/3 range sold between $211 and $286 per sq ft, with the top of that range going to 9669 Leland, a smaller home with a new roof, remodeled kitchen and custom pool.</p>
+</div>
+
+<h2>Adjusted Comparable Analysis</h2>
+<div class="tablewrap">
+<table style="min-width:900px">
+  <thead><tr><th>Adjustment</th><th class="num">9669 Leland</th><th class="num">9558 Cypress Pine</th><th class="num">9885 Leland</th><th class="num">9615 Sweetleaf</th><th class="num">9589 Pine Lily</th><th class="num">10117 Sweetleaf</th></tr></thead>
+  <tbody>
+    <tr><td>Status / Date</td><td class="num">Sold 9/25/26</td><td class="num">Sold 7/23/26</td><td class="num">Sold 6/29/26</td><td class="num">Pending 9/14/26</td><td class="num">Sold 4/3/26</td><td class="num">Sold 3/5/26</td></tr>
+    <tr><td>Price (sale, or list net of concession)</td><td class="num">$660,000</td><td class="num">$680,000</td><td class="num">$530,000</td><td class="num">$540,000</td><td class="num">$735,000</td><td class="num">$650,000</td></tr>
+    <tr><td>Size ($100 per sq ft of difference)</td><td class="num pos">+$28,700</td><td class="num neg">-$33,500</td><td class="num pos">+$46,800</td><td class="num pos">+$53,900</td><td class="num neg">-$28,800</td><td class="num neg">-$48,600</td></tr>
+    <tr><td>Bedroom / bath count</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num pos">+$15,000</td><td class="num">$0</td><td class="num">$0</td></tr>
+    <tr><td>Private pool / spa</td><td class="num neg">-$45,000</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num neg">-$45,000</td><td class="num neg">-$45,000</td></tr>
+    <tr><td>Condition and updates</td><td class="num neg">-$20,000</td><td class="num pos">+$5,000</td><td class="num pos">+$10,000</td><td class="num pos">+$10,000</td><td class="num pos">+$5,000</td><td class="num">$0</td></tr>
+    <tr><td>Garage</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num neg">-$10,000</td></tr>
+    <tr><td>Lot size / view</td><td class="num neg">-$5,000</td><td class="num">$0</td><td class="num">$0</td><td class="num">$0</td><td class="num neg">-$20,000</td><td class="num">$0</td></tr>
+    <tr><td>Location (classic section, front porch, lake access)</td><td class="num">$0</td><td class="num neg">-$15,000</td><td class="num">$0</td><td class="num neg">-$10,000</td><td class="num neg">-$10,000</td><td class="num neg">-$10,000</td></tr>
+    <tr><td><b>Adjusted value</b></td><td class="num"><b>$618,700</b></td><td class="num"><b>$636,500</b></td><td class="num"><b>$586,800</b></td><td class="num"><b>$608,900</b></td><td class="num"><b>$636,200</b></td><td class="num"><b>$536,400</b></td></tr>
+    <tr><td>Weight</td><td class="num">35%</td><td class="num">25%</td><td class="num">15%</td><td class="num">10%</td><td class="num">10%</td><td class="num">5%</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="grid g3" style="margin-top:14px">
+  <div class="card kpi"><div class="label">Weighted Adjusted Value</div><div class="value">$615,000</div><div class="note">Sales comparison, 5 sold + 1 pending</div></div>
+  <div class="card kpi"><div class="label">Price per Sq Ft Approach</div><div class="value">$620,500</div><div class="note">$239.50 x 2,591 sq ft</div></div>
+  <div class="card kpi feature"><div class="label">Reconciled Value</div><div class="value">$615,000</div><div class="note">Range $600,000 to $630,000</div></div>
+</div>
+<p style="font-size:12.5px;color:var(--muted)">9669 Leland carries the most weight: it sold last month, sits in the subject's section, and has the same 4/3 plus office layout with the fourth bedroom upstairs. Its adjustments are for its pool, 2026 roof, remodeled kitchen and all-LVP flooring. 9558 Cypress Pine is the closest non-pool match in size and layout. 9589 Pine Lily and 10117 Sweetleaf are more than 6 months old and get less weight; 10117 Sweetleaf also sold through an offer-deadline format at 114% of list, so its result is less typical. 9613 Pine Lily (3,677 sq ft, in-law suite) brackets the top of the market but is too different to weight.</p>
+
+<h2>Days on Market: How Fast Should It Sell?</h2>
+<div class="grid g2">
+  <div class="card bars">
+    <h3>Days to Contract (sold) / Days on Market (active)</h3>
+    <div class="row"><div>9558 Cypress Pine (Sold)</div><div class="track"><div class="fill f-sold" style="width:4.5%"></div></div><div class="num">9</div></div>
+    <div class="row"><div>9885 Leland (Sold)</div><div class="track"><div class="fill f-sold" style="width:7.0%"></div></div><div class="num">14</div></div>
+    <div class="row"><div>10117 Sweetleaf (Sold)</div><div class="track"><div class="fill f-sold" style="width:8.5%"></div></div><div class="num">17</div></div>
+    <div class="row"><div>9613 Pine Lily (Sold)</div><div class="track"><div class="fill f-sold" style="width:10.9%"></div></div><div class="num">22</div></div>
+    <div class="row"><div>9615 Sweetleaf (Pending)</div><div class="track"><div class="fill f-pend" style="width:22.4%"></div></div><div class="num">45</div></div>
+    <div class="row"><div>10205 Cypress Vine</div><div class="track"><div class="fill f-act" style="width:27.9%"></div></div><div class="num">56</div></div>
+    <div class="row"><div>9957 Cypress Vine</div><div class="track"><div class="fill f-act" style="width:30.8%"></div></div><div class="num">62</div></div>
+    <div class="row"><div>9669 Leland (Sold)</div><div class="track"><div class="fill f-sold" style="width:45.3%"></div></div><div class="num">91</div></div>
+    <div class="row"><div>9589 Pine Lily (Active)</div><div class="track"><div class="fill f-act" style="width:53.7%"></div></div><div class="num">108</div></div>
+    <div class="row"><div>9589 Pine Lily (Sold 4/26)</div><div class="track"><div class="fill f-sold" style="width:61.2%"></div></div><div class="num">123</div></div>
+    <div class="row"><div>Subject, 2023 listing</div><div class="track"><div class="fill" style="width:93.0%;background:var(--red)"></div></div><div class="num">187</div></div>
+    <div class="row"><div>10180 Cypress Vine</div><div class="track"><div class="fill f-act" style="width:100.0%"></div></div><div class="num">201</div></div>
+  </div>
+  <div class="card">
+    <h3>What the Data Says</h3>
+    <ul class="clean">
+      <li><b>Priced right, homes go fast.</b> Four of the six sales went under contract in 9 to 22 days (average 16) and closed at 96% to 98% of list, or above list in the case of 10117 Sweetleaf.</li>
+      <li><b>Overpricing costs real money.</b> 9669 Leland, the best match, launched at $729,900, sat 91 days, and sold for $660,000. 9589 Pine Lily took 123 days and sold $40,000 under its list price.</li>
+      <li><b>Overpriced homes sit.</b> Active listings average 87 days, and every one listed above market has needed at least one price cut. 10180 Cypress Vine is at 201 days.</li>
+      <li><b>The pending comp needed a correction.</b> 9615 Sweetleaf only went under contract at day 45 after a $25,000 reduction and a $10,000 concession offer.</li>
+      <li><b>Supply is building.</b> 7 contracts in this comp set from January to September (under 1 per month) against 5 active listings works out to about 6 months of inventory, a balanced market where buyers have choices.</li>
+      <li><b>Season matters.</b> Listing in November means fewer buyers through the holidays. A sharp price at launch is how we capture the serious ones who are shopping now.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h3>Projected Timeline at $619,900</h3>
+  <div class="timeline">
+    <div class="step"><div class="dot">1</div><div class="t">Days 1 to 14</div><div class="d">Peak showing activity, first offers</div></div>
+    <div class="step"><div class="dot">2</div><div class="t">Days 21 to 45</div><div class="d">Accepted contract expected</div></div>
+    <div class="step"><div class="dot">3</div><div class="t">+10 to 15 days</div><div class="d">Inspection and appraisal</div></div>
+    <div class="step"><div class="dot">4</div><div class="t">Days 55 to 90</div><div class="d">Closing</div></div>
+  </div>
+  <p style="font-size:12.5px;color:var(--muted);margin:12px 0 0">If there is no accepted offer by day 21 to 30, the market is telling us something, and we should review feedback and adjust rather than wait.</p>
+</div>
+
+<h2>Pricing Scenarios</h2>
+<div class="grid g4">
+  <div class="tier">
+    <div class="price">$599,900</div>
+    <div class="dom">7 to 21 days</div>
+    <ul><li>Priced below the competition</li><li>Strongest early traffic, chance of competing offers</li><li>Likely sale $595K to $605K</li></ul>
+  </div>
+  <div class="tier rec">
+    <span class="ribbon">Recommended</span>
+    <div class="price">$619,900</div>
+    <div class="dom">21 to 45 days</div>
+    <ul><li>In line with adjusted comps</li><li>Room to negotiate concessions</li><li>Likely sale $605K to $615K</li></ul>
+  </div>
+  <div class="tier">
+    <div class="price">$644,900</div>
+    <div class="dom">60 to 90+ days</div>
+    <ul><li>Above the supported value</li><li>Appraisal gap risk</li><li>Likely needs a price cut, as 9669 Leland did</li></ul>
+  </div>
+  <div class="tier">
+    <div class="price">$660,000+</div>
+    <div class="dom">100+ days</div>
+    <ul><li>Repeats the 2023 pattern</li><li>Becomes a stale listing</li><li>Often sells for less in the end</li></ul>
+  </div>
+</div>
+
+<h2>Strengths &amp; Considerations</h2>
+<div class="grid g2">
+  <div class="card">
+    <h3 style="color:var(--green)">Strengths</h3>
+    <ul class="clean">
+      <li>Roof and HVAC are only 4 years old, a major buyer and insurance advantage</li>
+      <li>LVP in living areas, move-in ready look</li>
+      <li>Flexible layout: 4 bedrooms, office and an upstairs suite</li>
+      <li>Conservation backyard with mature oak and privacy</li>
+      <li>Flood zone X per county tax records, so no required flood insurance</li>
+      <li>About 290 sq ft larger than 9669 Leland, the closest recent sale</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3 style="color:var(--amber)">Considerations</h3>
+    <ul class="clean">
+            <li>No private pool, while the highest-priced listings have one</li>
+      <li>Carpet in bedrooms and den versus all-hard-surface comps</li>
+      <li>Prior 187-day expired listing appears in the property history</li>
+      <li>Competing actives nearby on Cypress Vine and Sweetleaf</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout">
+  <b>Before we list:</b> verify the heated square footage and correct the flood zone to X on the new MLS listing. The 2023 listing showed zone AE, and buyers who saw that history may assume flood insurance is required. Having the tax record ready to share will clear that up quickly.
+</div>
+<div class="callout blue">
+  <b>Optional value boost:</b> replacing the bedroom and den carpet with matching LVP would give buyers a fully hard-surface home and help the listing compete with renovated homes nearby. It could support pricing toward the upper end of the range.
+</div>
+
+<footer>
+  <div class="sig">
+    <div><b>Rebeca (Becky) Lima</b>, Realtor&reg;<br>Verandah Properties LLC | Orlando, Florida</div>
+    <div style="text-align:right">Data source: Stellar MLS, Market Analysis Summary and sold records as of 10/28/2026</div>
+  </div>
+  This is an opinion of value or Comparative Market Analysis and should not be considered an appraisal. It has not been prepared in accordance with the Uniform Standards of Professional Appraisal Practice. Adjustments are estimates based on market observation. All information is deemed reliable but not guaranteed and should be independently verified.
+</footer>
+
+</div>
+</body>
+</html>
